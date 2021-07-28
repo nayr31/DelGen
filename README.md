@@ -1,0 +1,2 @@
+# DelGen
+ Generates Deli manifests.
