@@ -61,12 +61,16 @@ while True:
     except:
         print("This is not a correct version string, try again.")
 
-print("\nPlease select loading perameters for your files.\nFile list:")
+print("\nPlease select loading perameters for your files.\nAsset list:")
 
 print(filesHere)
 
-for file in filesHere:
-    print("Do you want to include \"" + file + "" if os.path.isfile(file) == True else "/" + "\"? (y/n)")
+def add_asset_entry(stage, filename, asset_type):
+    print("Adding \"" + filename + "\" to \"" + stage + "\" asset loading stage for \"" + asset_type + "\" loading method.")
+    # yikes man json_data["assets"][stage].update(filename = asset_type)
+
+def add_asset(file):
+    print("Do you want to include \"" + (file + ("" if os.path.isfile(file) == True else "/")) + "\"? (y/n)")
     while True:
         conf = input()
         if conf != "y" and conf != "n":
@@ -74,7 +78,7 @@ for file in filesHere:
         elif conf == "y":
             break
         elif conf == "n":
-            continue
+            return
     filename = file
     print("Do you need to change the name of this? (only use for globing files in custom characters) (y/n)")
     while True:
@@ -98,28 +102,45 @@ for file in filesHere:
             else:
                 stage = "runtime"
             break
-    asset_type = "unknown"
-    print("What type of asset is this?\n[1] - Otherloader\n[2] - TnHTweaker (character)\n[3] - TnHTweaker (sosig)\n[4] - TnHTweaker (vault)")
+    print("What type of asset is this?\n[1] - Otherloader item\n[2] - TnHTweaker (character)\n[3] - TnHTweaker (sosig)\n[4] - TnHTweaker (vault)")
     while True:
         conf = input()
         if conf <= "1" or conf > "4":
             print("Incorrect input, try again.")
         elif conf == "1":
-            asset_type = "lmao"
+            add_asset_entry(stage, filename, "h3vr.otherloader.deli:item")
             break
         elif conf == "2":
-            asset_type = "lmao"
+            add_asset_entry(stage, filename, "h3vr.tnhtweaker.deli:character")
             break
         elif conf == "3":
-            asset_type = "lmao"
+            add_asset_entry(stage, filename, "h3vr.tnhtweaker.deli:sosig")
             break
         elif conf == "4":
-            asset_type = "lmao"
+            add_asset_entry(stage, filename, "h3vr.tnhtweaker.deli:vault_file")
             break
+        
 
+for file in filesHere:
+    add_asset(file)
 
-    print("Adding \"" + filename + "\" to \"" + stage + "\" asset loading stage for \"" + asset_type + "\" loading method.")
+print(json_data["assets"])
 
-print("Finished creating data, writing...")
+while True:
+    print("Would you like to add more assets? (y/n)")
+    conf = input()
+    if conf != "y" or conf != "n":
+        print("Incorrect input, try again.")
+    elif conf == "y":
+        add_asset(input("Please enter the path: "))
+    elif conf == "n":
+        break
+
+print("Finished adding assets. Please double check to make sure the files look correct.")
+
+print("\nFinished creating data, writing...")
+
+with open("manifest.json", "w+") as f:
+    json.dump(json_data, f, indent=2)
 
 input("Finished.")
