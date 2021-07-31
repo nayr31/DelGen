@@ -1,9 +1,8 @@
-import os, json
+import os, json, re
 from packaging.version import Version
 
 home_dir = os.getcwd()
 filesHere = os.listdir()
-filesHere.remove("DelGen.py")
 
 print("Working in " + home_dir)
 
@@ -45,7 +44,7 @@ else:
 
 json_data["name"] = string_name
 json_data["description"] = string_description
-json_data["guid"] = "h3vr." + string_author.replace(" ", "").lower() + "." + string_name.replace(" ", "").lower()
+json_data["guid"] = "h3vr." + "".join(re.findall("[a-z_0-9.]", string_author.lower())) + "." + "".join(re.findall("[a-z_0-9.]", string_name.lower()))
 json_data["authors"] = list_authors
 
 print("Please input your mod version (x.x.x format)")
