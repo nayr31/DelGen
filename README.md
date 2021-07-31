@@ -32,3 +32,10 @@ Generates Deli manifests from terminal prompts to the user.
 4. Follow the on screen prompts.
 5. After it has finished, a file called `manifest.json` will be created next to your files.
 6. Pack your files and `manifest.json` as a `.zip`, then rename the file extension to `.deli`.
+
+## Demonstration
+
+
+https://user-images.githubusercontent.com/69859977/127743674-2c78a340-dc2d-45b1-9dbf-b2b048e64c3c.mp4
+
+
